@@ -1,8 +1,6 @@
 count = int(input())
 
-coordinates = []
-for _ in range(count):
-    coordinates.append(tuple(map(int, input().split())))
+coordinates = [tuple(map(int, input().split())) for _ in range(count)]
 
 coordinates.sort()
 

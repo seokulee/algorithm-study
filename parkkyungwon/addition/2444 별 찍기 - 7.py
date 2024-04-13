@@ -1,12 +1,6 @@
-import sys
-
-
-
-write = sys.stdout.write
-
 def print_star(n, i):
-    write(''.join([' '] * (n - i)))
-    write(''.join(['*'] * (i * 2 - 1)) + '\n')
+    print(''.join([' '] * (n - i)), end= '')
+    print(''.join(['*'] * (i * 2 - 1)))
 
 
 n = int(input())
