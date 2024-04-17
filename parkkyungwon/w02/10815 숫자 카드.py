@@ -1,7 +1,6 @@
 _ = input()
 
-cards = set()
-cards.update(list(map(int, input().split())))
+cards = set(map(int, input().split()))
 
 _ = input()
 others_cards = list(map(int, input().split()))
