@@ -1,0 +1,8 @@
+<script>
+(function() {
+	var url = window.location.href;
+	url = url.slice(url.lastIndexOf('/')+1);
+	url = url.slice(0, url.lastIndexOf('.'));
+	window.location.href=(`https://replit.com/@TheSophist1/${url}`);
+})();
+</script>
