@@ -13,3 +13,4 @@
 | **week05**<br>(24.05.06. ~ 24.05.12.) | [재귀](https://www.acmicpc.net/step/19) <br>[백트랙킹](https://www.acmicpc.net/step/34) |
 | **week06**<br>(24.05.13. ~ 24.05.19.) | [동적 계획법 1](https://www.acmicpc.net/step/16) |
 | **week07**<br>(24.05.20. ~ 24.05.26.) | [누적합](https://www.acmicpc.net/step/48) |
+| **week08**<br>(24.05.27. ~ 24.06.02.) | [그리디 알고리즘](https://www.acmicpc.net/step/33) <br>[분할정복](https://www.acmicpc.net/step/20) |
