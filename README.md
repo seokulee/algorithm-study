@@ -16,4 +16,5 @@
 | **week08**<br>(24.05.27. ~ 24.06.02.) |     [그리디 알고리즘](https://www.acmicpc.net/step/33) <br>[분할정복](https://www.acmicpc.net/step/20)     |
 | **week09**<br>(24.06.03. ~ 24.06.09.) |       [이분탐색](https://www.acmicpc.net/step/29)       |
 | **week10**<br>(24.06.10. ~ 24.06.16.) |       [우선순위 큐](https://www.acmicpc.net/step/13)       |
+| **week11**<br>(24.06.17. ~ 24.06.23.) |       [동적 계획법 2](https://www.acmicpc.net/step/17)       |
 
