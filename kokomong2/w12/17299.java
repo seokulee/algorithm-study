@@ -1,46 +1,36 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    static int n;
-    static long[] num;
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st;
-        String s;
-
-        while (!(s = br.readLine()).equals("0")) {
-            Stack<Integer> stack = new Stack<>();
-            st = new StringTokenizer(s);
-            n = Integer.parseInt(st.nextToken());
-            num = new long[n];
-            for (int i = 0; i < n; i++) num[i] = Long.parseLong(st.nextToken());
-            long maxArea = 0;
-
-            for (int i = 0; i < n; i++) {
-                while ((!stack.isEmpty()) && num[stack.peek()] >= num[i]) {
-                    long height = num[stack.pop()];
-                    long weight = (stack.isEmpty()) ? i : (i - stack.peek() - 1);
-                    maxArea = Math.max(maxArea, height * weight);
-                }
-                stack.push(i);
-            }
-
-            while (!stack.isEmpty()) {
-                long height = num[stack.pop()];
-                long weight = (stack.isEmpty()) ? n : (n - stack.peek() - 1);
-                maxArea = Math.max(maxArea, height * weight);
-            }
-
-            sb.append(maxArea).append('\n');
+        int index = 0;
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N];
+        int[] count = new int[1000001];
+        Stack<Integer> st = new Stack<>();
+		StringTokenizer to = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(to.nextToken());
+            count[arr[i]]++;
         }
-
-        System.out.println(sb);
+        st.push(0);
+        for (int i = 1; i < N; i++){
+            index = st.peek();
+            if (count[arr[index]] >= count[arr[i]])
+                st.push(i);
+            else if (count[arr[index]] < count[arr[i]]) {
+                while (!st.isEmpty() && count[arr[st.peek()]] < count[arr[i]]){
+                    arr[st.pop()] = arr[i];
+                }
+                st.push(i);
+            }
+        }
+        while (!st.empty())
+            arr[st.pop()] = -1;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++){
+            sb.append(arr[i]).append(" ");
+        }
+        System.out.print(sb);
     }
-
 }
