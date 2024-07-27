@@ -15,7 +15,7 @@ public class Main {
             index = st.peek();
             if (arr[index] > arr[i])
                 st.push(i);
-            else if (arr[index] <= arr[i]) {
+            else {
                 while (!st.isEmpty() && arr[st.peek()] < arr[i]){
                     arr[st.pop()] = arr[i];
                 }
