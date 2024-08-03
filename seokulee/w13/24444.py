@@ -33,7 +33,7 @@ for i in range(M):
     vertex[u].append(v)
     vertex[v].append(u)
 
-dfs(vertex, visited, R)
+bfs(vertex, visited, R)
 
 for i in range(1, N+1):
     print(visited[i])
