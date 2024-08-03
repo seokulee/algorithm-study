@@ -5,7 +5,7 @@ sys.setrecursionlimit(10**6)
 order = 1
 q = deque()
 
-def dfs(vertex, visited, R):
+def bfs(vertex, visited, R):
     for v in range(N+1):
         if v != R:
             visited[v] = 0
