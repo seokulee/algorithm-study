@@ -19,3 +19,5 @@
 | **week11**<br>(24.06.17. ~ 24.06.23.) |       [동적 계획법 2](https://www.acmicpc.net/step/17)       |
 | **week12**<br>(24.06.17. ~ 24.07.28.) |       [스택 2](https://www.acmicpc.net/step/51)       |
 | **week13**<br>(24.07.29. ~ 24.08.11.) |       [그래프와 순회 1](https://www.acmicpc.net/step/24)       |
+| **week14**<br>(24.08.12. ~ 24.08.18.) |       [그래프와 순회 2](https://www.acmicpc.net/step/24)       |
+
