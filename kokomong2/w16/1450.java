@@ -64,3 +64,4 @@ public class Main {
 		comb(lst, start + 1, end, sum + arr[start]);
 	}
 }
+
