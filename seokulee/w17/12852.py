@@ -3,7 +3,7 @@ import sys
 N = int(sys.stdin.readline().rstrip())
 count = 0
 
-def min_operations_to_one(N: int) -> int:
+def min_operations_to_one(N):
     dp = [0] * (N + 1)
     path = [0] * (N + 1)
     path[1] = [1]
