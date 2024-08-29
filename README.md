@@ -31,4 +31,4 @@
 | **week14**<br>(24.08.05. ~ 24.08.11.) | [그래프와 순회 2](https://www.acmicpc.net/step/24) |
 | **week15**<br>(24.08.12. ~ 24.08.18.) | [최단 경로](https://www.acmicpc.net/step/26) |
 | **week16**<br>(24.08.19. ~ 24.08.25.) | [투 포인터](https://www.acmicpc.net/step/59) |
-| **week16**<br>(24.08.26. ~ 24.09.01.) | [동적 계획법과 최단거리 역추적](https://www.acmicpc.net/step/41) |
+| **week17**<br>(24.08.26. ~ 24.09.01.) | [동적 계획법과 최단거리 역추적](https://www.acmicpc.net/step/41) |
