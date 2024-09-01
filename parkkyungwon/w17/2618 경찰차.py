@@ -33,7 +33,7 @@ def sol(incidents):
     for i in range(1, L):
         dp2 = defaultdict(lambda: float('inf'))
         diff = get_diff(incidents, i)
-        maxi2 = maxi + MAX_INDEX
+        maxi2 = maxi + MAX_INDEX - 2
         maxi = float('inf')
 
         for k, v in dp.items():
