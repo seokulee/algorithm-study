@@ -1,61 +1,71 @@
 import sys
+from collections import defaultdict
 
 
 
-def sol(arr, n):
-    L = len(arr)
-    maxi = float('inf')
-    diff = tuple([0] * (L+1) for _ in range(L+1))
-    path = tuple([0] * (L+1) for _ in range(L+1))
-    dp = tuple([float('inf')] * (L+1) for _ in range(L+1))
-    dp[0][0] = 0
+# 두 사건간의 거리를 저장
+def get_diff(arr, i):
+    i -= 1
+    a = sum(arr[i]) - 2
+    return [[a, MAX_INDEX-a-2]] + [abs(arr[i][0] - arr[j][0]) + abs(arr[i][1] - arr[j][1]) for j in range(i)]
 
-    # 두 사건간의 거리를 저장
-    for i in range(L):
-        diff[i+1][0] = sum(arr[i]) - 2
-        diff[0][i+1] = 2*n - sum(arr[i])
 
-        for j in range(i):
-            a = abs(arr[i][0] - arr[j][0]) + abs(arr[i][1] - arr[j][1])
-            diff[i+1][j+1] = a
-            diff[j+1][i+1] = a
-    
-    # 경우들 모두 계산
-    for i in range(L):
-        for j in range(L):
-            if dp[i][j] >= maxi: continue
-
-            if i < j: v = j + 1
-            else: v = i + 1
-            
-            c1, c2 = diff[v][j] + dp[i][j], diff[i][v] + dp[i][j]
-
-            if c1 < dp[i][v]: dp[i][v], path[i][v] = c1, j
-            if c2 < dp[v][j]: dp[v][j], path[v][j] = c2, i
-            
-            if v == L:
-                if c1 < maxi: maxi, answer = c1, (i, v)
-                if c2 < maxi: maxi, answer = c2, (v, j)
-                
-    # 최단경로 역 추적
-    nex = [answer[0], answer[1]]
+# 최단경로 역 추적
+def backtrack(arr, i, j):
     shor_path = []
 
-    for i in range(L, 0, -1):
-        if nex[0] == i:
+    for k in range(L-1, 0, -1):
+        if i == k:
             shor_path.append(2)
-            nex[0] = path[nex[0]][nex[1]]
+            i = arr[i][j]
         else:
             shor_path.append(1)
-            nex[1] = path[nex[0]][nex[1]]
+            j = arr[i][j]
 
-    return dp[answer[0]][answer[1]], shor_path[::-1]
+    return shor_path[::-1]
 
+
+def sol(incidents):
+    dp = {(0, 0): 0}
+    hist = [[0] * L for _ in range(L)]
+    maxi = float('inf')
+
+    for i in range(1, L):
+        dp2 = defaultdict(lambda: float('inf'))
+        diff = get_diff(incidents, i)
+        maxi2 = maxi + MAX_INDEX
+        maxi = float('inf')
+
+        for k, v in dp.items():
+            car2, car1 = k
+            d1 = (diff[0][0] if car1 == 0 else diff[car1]) + v
+            d2 = (diff[0][1] if car2 == 0 else diff[car2]) + v
+
+            if d1 < maxi2 and d1 < dp2[(car2, i)]:
+                dp2[(car2, i)] = d1
+                hist[car2][i] = car1
+
+            if d2 < maxi2 and d2 < dp2[(i, car1)]:
+                dp2[(i, car1)] = d2
+                hist[i][car1] = car2
+            
+            maxi = min(maxi, d1, d2)
+
+        dp = dp2
+    
+    k, v = sorted(dp.items(), key=lambda x: x[1])[0]
+    y, x = k
+    
+    return [v] + backtrack(hist, y, x)
+    
+    
 
 readline = sys.stdin.readline
 N = int(readline())
 W = int(readline())
-arr = tuple(tuple(map(int, readline().split())) for _ in range(W))
+incidents = [tuple(map(int, readline().split())) for _ in range(W)]
 
-answer, path = sol(arr, N)
-print(answer, *path, sep='\n')
+L = W + 1
+MAX_INDEX = 2 * N
+
+print(*sol(incidents), sep='\n')
