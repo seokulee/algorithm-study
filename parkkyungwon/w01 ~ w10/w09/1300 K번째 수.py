@@ -1,23 +1,25 @@
-def find(n, k):
-    def check(m):
-        t = 0
+import bisect
+
+
+
+class Check:
+    def __init__(self, n, k):
+        self.n, self.k = n, k
+
+    def __getitem__(self, m):
+        total = 0
         sq = int(m ** 0.5)
 
         for i in range(1, sq + 1):
-            t += min(m // i, n)*2
-        return t - sq ** 2
+            a = m // i
+            total += a if a < self.n else self.n
 
+        return 2*total - sq**2
 
-    s, e = 0, k
-    while s < e:
-        m = (s + e) // 2
-        if check(m) < k: s = m + 1
-        else: e = m
-    
-    return s
+    def __len__(self):
+        return self.k
+        
 
+N, K = int(input()), int(input())
 
-N = int(input())
-K = int(input())
-
-print(find(N, K))
+print(bisect.bisect_left(Check(N, K), K))
