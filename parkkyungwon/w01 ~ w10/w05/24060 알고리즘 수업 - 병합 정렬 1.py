@@ -1,39 +1,39 @@
-import sys
 import math
+from functools import lru_cache
 
 
 
-readline = sys.stdin.readline
+N, K = map(int, input().split())
+arr = list(map(int, input().split()))
 
-
-def num_of_stored(n):
-    a = math.floor(math.log2(n))
-    b = n - (2 ** a)
-
-    return a*(2**a) + (a + 2)*b
-
-
-def find(arr, n, k):
-    if num_of_stored(n) < k:
-        return -1
-
-    return sub(arr, n, k)
-
-
-def sub(arr, n, k):
-    half = (n+1)//2
-    left = num_of_stored(half)
-    if left >= k:
-        return sub(arr[:half], half, k)
+# n 크기의 배열을 정렬할 때 총 저장되는 횟수를 반환
+@lru_cache()
+def check(n):
+    if not n: return 0
     
-    right = left + num_of_stored(n-half)
-    if right >= k:
-        return sub(arr[half:], n-half, k-left)
-    
-    return sorted(arr)[k - right - 1]
+    a = int(math.log2(n))
+    b = 2 ** a
 
-    
-N, K = map(int, readline().strip().split())
-arr = list(map(int, readline().strip().split()))
+    return a*b + (a + 2)*(n - b)
 
-print(find(arr, N, K))
+def sol(n, k):
+    def f(s, e, k):
+        m = (s+e+1) // 2
+        # 전반부 정렬에 저장되는 횟수
+        left = check(m-s)
+
+        if left >= k: return f(s, m, k)
+        k -= left
+
+        # 후반부 정렬에 저장되는 횟수
+        right = check(e-m)
+
+        if right >= k: return f(m, e, k)
+        k -= right    
+
+        # 위 정렬에 저장된게 아니면, 병합 때 발생
+        return sorted(arr[s:e])[k-1]
+
+    return -1 if check(n) < k else f(0, n, k)
+
+print(sol(N, K))
