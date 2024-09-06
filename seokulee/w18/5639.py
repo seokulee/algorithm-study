@@ -9,23 +9,20 @@ while True:
     except:
         break
 
-def postorder(arr):
-    if not arr:
+def postorder(s, e):
+    if s > e:
         return
 
-    left, right = [], []
-    mid = arr[0]
-    for i in range(1, len(arr)):
-        if arr[i] > mid:
-            left = arr[1:i]
-            right = arr[i:]
+    root = preorder[s]
+    m = e + 1
+    for i in range(s + 1, e + 1):
+        if preorder[i] > root:
+            m = i
             break
-        else:
-            left = arr[1:]
 
-    postorder(left)
-    postorder(right)
-    print(mid)
+    postorder(s + 1, m - 1)
+    postorder(m, e)
+    print(root)
 
 
-postorder(preorder)
+postorder(0, len(preorder) - 1)
