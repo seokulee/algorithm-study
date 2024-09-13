@@ -1,5 +1,4 @@
 import sys
-import heapq
 
 
 class UnionFind():
@@ -31,12 +30,10 @@ class UnionFind():
         return -self.dp[self.find(i)]
 
 
-def sol(uf, heap, L):
+def sol(uf, edges, L):
     cost = 0
 
-    while heap:
-        z, x, y = heapq.heappop(heap)
-
+    for x, y, z in edges:
         if uf.union(x, y): 
             cost += z
 
@@ -52,12 +49,14 @@ while 1:
     if M == 0 and N == 0: break
 
     uf = UnionFind(M)
-    heap = []
+    edges = []
     total_cost = 0
 
     for _ in range(N):
-        x, y, z = map(int, readline().split())
-        heapq.heappush(heap, (z, x, y))
+        x, y, z = tuple(map(int, readline().split()))
+        edges.append((x, y, z))
         total_cost += z
+    
+    edges.sort(key=lambda x: x[2])
 
-    print(total_cost - sol(uf, heap, M))
+    print(total_cost - sol(uf, edges, M))
