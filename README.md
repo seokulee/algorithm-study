@@ -33,3 +33,5 @@
 | **week16**<br>(24.08.19. ~ 24.08.25.) | [투 포인터](https://www.acmicpc.net/step/59) |
 | **week17**<br>(24.08.26. ~ 24.09.01.) | [동적 계획법과 최단거리 역추적](https://www.acmicpc.net/step/41) |
 | **week18**<br>(24.08.27. ~ 24.09.08.) | [트리](https://www.acmicpc.net/step/23) |
+| **week19**<br>(24.08.27. ~ 24.09.08.) | [유니온 파인드](https://www.acmicpc.net/step/14) |
+| **week20**<br>(24.08.27. ~ 24.09.08.) | [최소 신장 트리](https://www.acmicpc.net/step/15) |
