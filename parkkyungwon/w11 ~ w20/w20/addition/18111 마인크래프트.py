@@ -1,28 +1,34 @@
 import bisect
 
 
+def upward_condition(heights, i, j):
+    return False if i == L else heights[i + 1] <= j
+
+def downward_condition(heights, i, j):
+    return heights[i] > j
+
+def compare(a, b):
+        if a[0] > b[0] or (a[0] == b[0] and a[1] < b[1]): a[0], a[1] = b[0], b[1]; return False
+        return True
+
 
 def sol(heights, area):
-    def get_cost(h):
-        i = bisect.bisect_left(heights, h+1) - 1
+    def get_cost(s, e, step, condition):
+        min_v = [float('inf')] * 2
+        i = bisect.bisect_left(heights, s+1) - 1
 
-        rect =  h * (LI - i)
-        above = cum_sum[-1] - cum_sum[i] - rect
-        under = h * area - cum_sum[i] - rect
+        for j in range(s, e, step):
+            while condition(heights, i, j):
+                i += step
+                
+            cost = 2*cum_sum[-1] - 3*(cum_sum[i] + j*(L - i)) + j*area 
+            
+            if compare(min_v, (cost, j)): break
 
-        return 2*above + under
-    
-    def compare(a, b):
-        if a[0] > b[0] or (a[0] == b[0] and a[1] < b[1]): 
-            a[0], a[1] = b[0], b[1]
-            return True
+        return min_v
 
-        return False
-
-    L = len(heights)
-    LI = L - 1
     cum_sum = heights.copy()
-    for i in range(LI): 
+    for i in range(L): 
         cum_sum[i+1] += cum_sum[i]
 
     end_h = (cum_sum[-1] + B) // area
@@ -31,17 +37,11 @@ def sol(heights, area):
     sep = area // 3
     mid_h = (cum_sum[sep] + cum_sum[-1]) // (area + sep + 1)
 
-    g_min = [float('inf')] * 2
+    a = get_cost(mid_h-1, start_h-1, -1, downward_condition)
+    b = get_cost(mid_h, end_h+1, 1, upward_condition)
+    compare(a, b)
 
-    for ite in (range(mid_h-1, start_h-1, -1), range(mid_h, end_h+1)):
-        l_min = [float('inf')] * 2
-
-        for i in ite:
-            if not compare(l_min, (get_cost(i), i)): break
-        
-        compare(g_min, l_min)
-
-    return g_min
+    return a
 
 
 ss = open(0).read().splitlines()
@@ -52,5 +52,7 @@ for s in ss[1:]:
     heights.extend(map(int, s.split()))
 
 heights.sort()
+
+L = len(heights) - 1
 
 print(*sol(heights, N * M))
