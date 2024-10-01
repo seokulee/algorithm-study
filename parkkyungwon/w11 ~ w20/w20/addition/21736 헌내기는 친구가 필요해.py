@@ -1,26 +1,21 @@
-import sys
-
-
-
-sys.setrecursionlimit(370000)
-
-
 def sol(dp, length):
     start = dp.index(2)
     dp[start] = 0
     count = 0
+    queue = [start]
 
-    def dfs(i):
-        nonlocal count
+    while queue:
+        queue_tmp = []
+        
+        for q in queue:
+            for i in q+1, q-1, q+length, q-length:
+                if dp[i]:
+                    if dp[i] == 3: count += 1
 
-        for j in i+1, i-1, i+length, i-length:
-            if dp[j]:
-                if dp[j] == 3: count += 1
-
-                dp[j] = 0
-                dfs(j)
-
-    dfs(start)
+                    dp[i] = 0
+                    queue_tmp.append(i)
+        
+        queue = queue_tmp
 
     return count if count else 'TT'
 
