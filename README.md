@@ -35,3 +35,4 @@
 | **week18**<br>(24.08.27. ~ 24.09.08.) | [트리](https://www.acmicpc.net/step/23) |
 | **week19**<br>(24.08.27. ~ 24.09.08.) | [유니온 파인드](https://www.acmicpc.net/step/14) |
 | **week20**<br>(24.08.27. ~ 24.09.08.) | [최소 신장 트리](https://www.acmicpc.net/step/15) |
+| **week21**<br>(24.09.30. ~ 24.10.06.) | [트리에서의 동적 계획법](https://www.acmicpc.net/step/21) |
