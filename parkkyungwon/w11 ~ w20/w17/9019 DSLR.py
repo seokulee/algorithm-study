@@ -1,71 +1,72 @@
 import sys
 
-
-
-def sol(start, end):
-    dp = [0] * L
-
-    def bfs():
-        dp[start] = 1
-        dp[end] = -1
-        queue_for = [start]
-        queue_rev = [end]
-
-        for i, j in zip(range(2, 5000), range(-2, -5000, -1)):
-            queue2_for = []
-            for q in queue_for:
-                for k in path_for[q]:
-                    if not dp[k]:
-                        dp[k] = i
-                        queue2_for.append(k)
-                    
-                    elif dp[k] < 0: return i-1, j+2, k               
-            
-            queue_for = queue2_for
-
-            queue2_rev = []
-            for q in queue_rev:
-                for k in path_rev[q]:
-                    if not dp[k]:
-                        dp[k] = j
-                        queue2_rev.append(k)
-
-                    elif dp[k] > 0: return i-1, j+1, k       
-            
-            queue_rev = queue2_rev
-
-    i, j, k = bfs()
-    # 최단 경로 역추적
-    answer = [None] * (i-j)
-
-    a = k
-    for b in range(i, 0, -1):
-        for char, c in zip(('S', 'L', 'R', 'D', 'D'), path_rev[a]):
-            if dp[c] == b:
-                answer[b-1] = char
-                a = c
-                break
-    
-    a = k
-    for b in range(j, 0):
-        for char, c in zip(('S', 'L', 'R', 'D'), path_for[a]):
-            if dp[c] == b:
-                answer[b] = char
-                a = c
-                break
-    
-    return ''.join(answer)
-
-
 readline = sys.stdin.readline
-T = int(readline())
 L = 10000
-path_for = [(i-1 if i else 9999, 10*i%L + i//1000, i//10 + 1000*i%L, 2*i%L) for i in range(L)]
-path_rev = [(0 if i == 9999 else i+1, i//10 + 1000*i%L, 10*i%L + i//1000, j := i//2, j+5000)
+# 각 수에서 다른 수로 변환(정방향, 역방향 모두)할 수 있는 수를 미리 전부 구함 
+fw_path = [(i-1 if i else 9999, 10*i%L + i//1000, i//10 + 1000*i%L, 2*i%L) for i in range(L)]
+bw_path = [(0 if i == 9999 else i+1, i//10 + 1000*i%L, 10*i%L + i//1000, j := i//2, j+5000)
             if i % 2 == 0 else 
             (0 if i == 9999 else i+1, i//10 + 1000*i%L, 10*i%L + i//1000) for i in range(L)]
+fw_chars = ('S', 'L', 'R', 'D')
+bw_chars = ('S', 'L', 'R', 'D', 'D')
 
-for _ in range(T):
-    A, B = map(int, readline().split())
+# 출발 지점과 도착 지점 양쪽에서 동시에 dp를 계산해간다. 투 포인터, bfs
+def two_point_bfs(start, end):
+    fw_dp = [-1] * L
+    bw_dp = [-1] * L
+    fw_dp[start] = start
+    bw_dp[end] = end
 
-    sys.stdout.write(sol(A, B) + '\n')
+    queue1, queue2 = [start], [end]
+    dp1, dp2 = fw_dp, bw_dp
+    path1, path2 = fw_path, bw_path
+
+    while 1:
+        tmp_queue = []
+
+        for q in queue1:
+            for next_q in path1[q]:
+                if dp1[next_q] < 0:
+                    dp1[next_q] = q
+                    tmp_queue.append(next_q)
+                
+                    # 중간 지점을 찾으면 반환
+                    if dp2[next_q] > -1: return next_q, fw_dp, bw_dp
+        
+        queue1, queue2 = queue2, tmp_queue
+        dp1, dp2 = dp2, dp1
+        path1, path2 = path2, path1
+
+# 겹치는 곳에서 최단 경로를 역추적
+def back_tracking(i, dp, chars, path):
+    answer = []
+
+    while dp[i] != i:
+        for char, j in zip(chars, path[i]):
+            if j == dp[i]:
+                answer.append(char)
+                i = j
+                break
+    
+    return answer
+
+def sol(start, end):
+    m, fw_dp, bw_dp = two_point_bfs(start, end)
+    # 최단 경로 추적
+    answer = back_tracking(m, fw_dp, bw_chars, bw_path)
+    answer.reverse() 
+    answer += back_tracking(m, bw_dp, fw_chars, fw_path)
+   
+    return ''.join(answer)
+
+def main():
+    T = int(readline())
+
+    for _ in range(T):
+        A, B = map(int, readline().split())
+
+        sys.stdout.write(sol(A, B) + '\n')
+
+
+if __name__ == "__main__":
+    main()
