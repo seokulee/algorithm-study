@@ -36,7 +36,7 @@ class Indexing():
         self.count = 0
     
     def __getitem__(self, i):
-        if not self.dictionary.get(i, False): 
+        if i not in self.dictionary: 
             self.count += 1
             self.dictionary[i] = self.count
 
