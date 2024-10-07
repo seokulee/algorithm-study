@@ -1,18 +1,7 @@
-import sys
+ss = open(0).read().splitlines()
+N = int(ss[0])
 
-
-
-readline = sys.stdin.readline
-N = int(readline())
-
-total = 0
-px, py = map(int, readline().split())
-lx, ly = px, py
-
-for cx, cy in (map(int, readline().split()) for _ in range(N-1)):
-    total += px*cy - cx*py
-    px, py = cx, cy
-
-total += px*ly - lx*py
+ss = [tuple(map(int, s.split())) for s in ss[1:]]
+total = sum(ss[i-1][0] * ss[i][1] - ss[i][0] * ss[i-1][1] for i in range(N))
 
 print(round(abs(total) / 2 + 0.000000000000001, 1))
