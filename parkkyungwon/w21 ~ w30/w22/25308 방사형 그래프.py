@@ -21,9 +21,10 @@ def sol(data):
     # -m1m3 < - sqrt(2)/2 * m2(m3 + m1)
     # m1m3 > sqrt(2)/2 * m2(m3 + m1)
     # sqrt(2) * m1m3 > m2(m1 + m3)
+    # 2*(m1m3)^2 > (m2(m1 + m3))^2
+    # 2*(m1m3)^2 - (m2(m1 + m3))^2 > 0
 
     count = 0
-    sqrt2 = 2**0.5
     s, data = (data[0], ), data[1:]
 
     for arr in itertools.permutations(data, 7):
@@ -32,7 +33,7 @@ def sol(data):
         for i in range(-2, 6):
             n1, n2, n3 = arr[i], arr[i+1], arr[i+2]
 
-            if sqrt2 * n1 * n3 > n2 * (n1 + n3): break
+            if 2*(n1*n3)**2 - (n2*(n1 + n3))**2 > 0: break
         
         else:
             count +=1
