@@ -36,4 +36,5 @@
 | **week19**<br>(24.08.27. ~ 24.09.08.) | [유니온 파인드](https://www.acmicpc.net/step/14) |
 | **week20**<br>(24.08.27. ~ 24.09.08.) | [최소 신장 트리](https://www.acmicpc.net/step/15) |
 | **week21**<br>(24.09.30. ~ 24.10.06.) | [트리에서의 동적 계획법](https://www.acmicpc.net/step/21) |
-| **week21**<br>(24.10.07. ~ 24.10.13.) | [기하 2-1](https://www.acmicpc.net/step/45) |
+| **week22**<br>(24.10.07. ~ 24.10.13.) | [기하 2-1](https://www.acmicpc.net/step/45) |
+| **week23**<br>(24.10.14. ~ 24.10.20.) | [동적계획법 3](https://www.acmicpc.net/step/31) |
