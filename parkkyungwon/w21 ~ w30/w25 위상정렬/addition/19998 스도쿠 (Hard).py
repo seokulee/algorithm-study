@@ -3,12 +3,12 @@ import sys
 
 
 class Node:
-    def __init__(self, col=None, name=None):
+    def __init__(self, name=None):
         self.left = self
         self.right = self
         self.up = self
         self.down = self
-        self.col = col
+        self.col = self
         self.name = name
         # header에서만 사용됨
         self.size = 0
@@ -28,15 +28,17 @@ class Node:
         self.up = node
         node.up = last
         node.down = self
+        node.col = self
 
         self.size += 1
 
     def cover(self):
-        self.right.left = self.left
-        self.left.right = self.right
+        col = self.col
+        col.right.left = col.left
+        col.left.right = col.right
 
-        i = self.down
-        while i is not self:
+        i = col.down
+        while i is not col:
             j = i.right
 
             while j is not i:
@@ -49,11 +51,12 @@ class Node:
             i = i.down
 
     def uncover(self):
-        self.right.left = self
-        self.left.right = self
+        col = self.col
+        col.right.left = col
+        col.left.right = col
 
-        i = self.up
-        while i is not self:
+        i = col.up
+        while i is not col:
             j = i.left
 
             while j is not i:
@@ -64,6 +67,18 @@ class Node:
                 j = j.left
 
             i = i.up
+    
+    def cover_h(self):
+        i = self.right
+        while i is not self:
+            i.cover()
+            i = i.right
+
+    def uncover_h(self):
+        i = self.left
+        while i is not self:
+            i.uncover()
+            i = i.left
 
 
 class Sudoku():
@@ -87,13 +102,15 @@ class Sudoku():
             for x in range(9):
                 for v in range(1, 10):
                     first = None
+                    name = (y, x, v)
 
                     for col_i in ((non_sign, y, x), (row_sign, y, v), (col_sign, x, v), (sq_sign, y // 3 * 3 + x // 3, v)):
                         col = self.col_headers[col_i]
-                        node = Node(col, (y, x, v))
+                        node = Node(name=name)
                      
                         if first: first.append_h(node)
                         else: first = node
+                        
                         col.append_v(node)
         
         # 이미 존재하는 곳은 제거
@@ -133,22 +150,14 @@ class Sudoku():
         
         node = col.down
         while node is not col:
-            i = node.right
-
-            while i is not node:
-                i.col.cover()
-                i = i.right
+            node.cover_h()
 
             if self.search():
                 y, x, v = node.name
                 self.arr[y][x] = v
                 return True
 
-            i = node.left
-            while i is not node:
-                i.col.uncover()
-                i = i.left
-
+            node.uncover_h()
             node = node.down
         
         col.uncover()
